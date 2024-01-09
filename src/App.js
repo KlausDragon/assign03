@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 
 function App() {
-  const [total, setTotal] = useState(0);
+  
+  const [total, setTotal] = useState('');
+  
   const handleClick = (e) => {
-    setTotal(e.target.value);
+    setTotal(total.concat(e.target.name));
   }
+
+  const clear = () => {
+    setTotal('');
+  }
+
+  const handleDelete = () => {
+    setTotal(total.slice(0, -1));
+  }
+
+  const calculate = () => {
+    try{
+      setTotal(eval(total).toString());
+    } catch(e) {
+      setTotal('Error');
+    }
+  }
+
   return (
     <div className="App">
       <h1>KD Calculator</h1>
       <div className="container">
         <form>
-          <input type="text"/>
+          <input type="text" value={total}/>
         </form>
         <div className="keypad">
-          <button id="clear" className="highlight">AC</button>
-          <button className="highlight">DEL</button>
+          <button onClick={clear} id="clear" className="highlight">AC</button>
+          <button onClick={handleDelete} className="highlight">DEL</button>
           <button name='/' className="highlight">&divide;</button>
           <button name='7' onClick={handleClick}>7</button>
           <button name='8' onClick={handleClick}>8</button>
@@ -30,7 +49,7 @@ function App() {
           <button name='+' onClick={handleClick} className="highlight">+</button>
           <button name='0' onClick={handleClick}>0</button>
           <button name='.' onClick={handleClick}>.</button>
-          <button name='=' onClick={handleClick} id="equal">=</button>
+          <button onClick={calculate} name='=' id="equal">=</button>
         </div>
       </div>
     </div>
