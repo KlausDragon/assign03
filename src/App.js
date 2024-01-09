@@ -24,6 +24,8 @@ function App() {
           <button>3</button>
           <button>+</button>
           <button>0</button>
+          <button>.</button>
+          <button>=</button>
         </div>
       </div>
     </div>
