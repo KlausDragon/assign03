@@ -11,17 +11,15 @@ function App() {
   
   const handleClick = (e) => {
     const value = e.target.name;
-    if (total === 'Error') {
-      setTotal('');
-    } else if (value === '/') {
-      setTotal(total.concat('/'));
+    if (total === 'Error' || total === '0') {
+      setTotal(value);
     } else {
-      setTotal(total.concat(e.target.name));
+      setTotal(total.concat(value));
     }
   }
 
   const clear = () => {
-    setTotal('');
+    setTotal('0');
   }
 
   const handleDelete = () => {
