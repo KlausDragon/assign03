@@ -4,8 +4,20 @@ function App() {
   
   const [total, setTotal] = useState('');
   
+  function getCurrentYear() {
+    const currentYear = new Date().getFullYear();
+    return currentYear;
+  }
+  
   const handleClick = (e) => {
-    setTotal(total.concat(e.target.name));
+    const value = e.target.name;
+    if (total === 'Error') {
+      setTotal('');
+    } else if (value === '/') {
+      setTotal(total.concat('/'));
+    } else {
+      setTotal(total.concat(e.target.name));
+    }
   }
 
   const clear = () => {
@@ -26,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>KD Calculator</h1>
+      <h1>KlausDragon Calculator</h1>
       <div className="container">
         <form>
           <input type="text" value={total}/>
@@ -34,7 +46,7 @@ function App() {
         <div className="keypad">
           <button onClick={clear} id="clear" className="highlight">AC</button>
           <button onClick={handleDelete} className="highlight">DEL</button>
-          <button name='/' className="highlight">&divide;</button>
+          <button name='/' onClick={handleClick} className="highlight">&divide;</button>
           <button name='7' onClick={handleClick}>7</button>
           <button name='8' onClick={handleClick}>8</button>
           <button name='9' onClick={handleClick}>9</button>
@@ -51,6 +63,9 @@ function App() {
           <button name='.' onClick={handleClick}>.</button>
           <button onClick={calculate} name='=' id="equal">=</button>
         </div>
+      </div>
+      <div className="footer">
+        <p>Created by Ali Abbasi © {getCurrentYear()}</p>
       </div>
     </div>
   );
