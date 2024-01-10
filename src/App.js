@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { evaluate } from 'mathjs';
 
 function App() {
   
-  const [total, setTotal] = useState('');
+  const [total, setTotal] = useState('0');
   
   function getCurrentYear() {
     const currentYear = new Date().getFullYear();
@@ -36,10 +37,52 @@ function App() {
     }
   }
 
-  
+  const handleMemory = (e) => {
+    const value = e.target.name;
+    if (value === 'MC') {
+      localStorage.removeItem('memory');
+    } else if (value === 'MR') {
+      if (localStorage.getItem('memory')) {
+        setTotal(evaluate(localStorage.getItem('memory')).toString());
+      }
+    } else if (value === 'MS') {
+      localStorage.setItem('memory', total);
+    } else if (value === 'M+') {
+      if (localStorage.getItem('memory')) {
+        localStorage.setItem('memory', evaluate(localStorage.getItem('memory') + '+' + total));
+      } else {
+        localStorage.setItem('memory', total);
+      }
+    } else if (value === 'M-') {
+      if (localStorage.getItem('memory')) {
+        localStorage.setItem('memory', evaluate(localStorage.getItem('memory') + '-' + total));
+      } else {
+        localStorage.setItem('memory', total);
+      }
+    }
+  }
+
+  const handlePercent = () => {
+    if (total !== '0') {
+      const newTotal = evaluate(total) / 100
+      setTotal(newTotal.toString());
+    }
+  }
+
+  const handleSqrt = () => {
+    if (total !== '0') {
+      setTotal(Math.sqrt(evaluate(total)).toString());
+    }
+  }
+
   const calculate = () => {
     try{
-      setTotal(eval(total).toString());
+      let result = evaluate(total).toString();
+      if(result == 'Infinity' || result == 'NaN'){
+        setTotal("Error")
+      } else {
+        setTotal(result);
+      } 
     } catch(e) {
       setTotal('Error');
     }
@@ -50,7 +93,7 @@ function App() {
       <h1>KlausDragon Calculator</h1>
       <div className="container">
         <form>
-          <input type="text" value={total}/>
+          <input type="text" value={total} readOnly/>
         </form>
         <div className="keypad">
           <button onClick={clear} id="clear" className="highlight">AC</button>
@@ -70,13 +113,15 @@ function App() {
           <button name='+' onClick={handleClick} className="highlight">+</button>
           <button name='0' onClick={handleClick}>0</button>
           <button name='.' onClick={handleClick}>.</button>
-          <button onClick={calculate} name='=' id="equal">=</button>
-          <button name='MS' className='lowlight'>MS</button>
-          <button name='MC' className='lowlight'>MC</button>
-          <button name='MR'className='lowlight'>MR</button>
+          <button name='=' onClick={calculate} id="equal">=</button>
+          <button name='MS' onClick={handleMemory} className='lowlight'>MS</button>
+          <button name='MC' onClick={handleMemory} className='lowlight'>MC</button>
+          <button name='MR' onClick={handleMemory} className='lowlight'>MR</button>
           <button className='lowlight' onClick={signNum}>+/-</button>
-          <button name='M+' className='lowlight'>M+</button>
-          <button name='M-' className='lowlight'>M-</button>
+          <button name='M+' onClick={handleMemory} className='lowlight'>M+</button>
+          <button name='M-' onClick={handleMemory} className='lowlight'>M-</button>
+          <button name='%' onClick={handlePercent} className="lowlight">%</button>
+          <button onClick={handleSqrt} className="lowlight">&radic;</button>
           <button name='(' onClick={handleClick} className="para">(</button>
           <button name=')' onClick={handleClick} className="para">)</button>
         </div>
