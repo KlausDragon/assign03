@@ -26,6 +26,17 @@ function App() {
     setTotal(total.slice(0, -1));
   }
 
+  const signNum = () => {
+    if (total !== '0') {
+      if (total[0] === '-') {
+        setTotal(total.slice(1));
+      } else {
+        setTotal('-'.concat(total));
+      }
+    }
+  }
+
+  
   const calculate = () => {
     try{
       setTotal(eval(total).toString());
@@ -60,6 +71,14 @@ function App() {
           <button name='0' onClick={handleClick}>0</button>
           <button name='.' onClick={handleClick}>.</button>
           <button onClick={calculate} name='=' id="equal">=</button>
+          <button name='MS' className='lowlight'>MS</button>
+          <button name='MC' className='lowlight'>MC</button>
+          <button name='MR'className='lowlight'>MR</button>
+          <button className='lowlight' onClick={signNum}>+/-</button>
+          <button name='M+' className='lowlight'>M+</button>
+          <button name='M-' className='lowlight'>M-</button>
+          <button name='(' onClick={handleClick} className="para">(</button>
+          <button name=')' onClick={handleClick} className="para">)</button>
         </div>
       </div>
       <div className="footer">

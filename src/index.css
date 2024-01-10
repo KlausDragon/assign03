@@ -29,7 +29,7 @@ h1 {
 
 .container {
   width: 250px;
-  height: 350px;
+  height: 400px;
   margin-top: 100px;
   border: 5px solid #fff;
   border-radius: 10px;
@@ -81,6 +81,18 @@ button {
 .highlight {
   background-color: deeppink;
   color: #000;
+}
+
+.lowlight {
+  background-color: #FFE570;
+  color: #000;
+}
+
+.para {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  background-color: #557b87;
 }
 
 .footer {
